@@ -1,0 +1,42 @@
+apiVersion: '2018-10-01'
+location: westeurope
+name: huisje
+properties:
+  containers:
+  - name: huisje
+    properties:
+      environmentVariables:
+      - name: SECRET_KEY_BASE
+        value: waldossecret12345
+      image: openproject/community
+      ports:
+      - port: 80
+      resources:
+        requests:
+          cpu: 1.0
+          memoryInGB: 1.5
+      volumeMounts:
+      - mountPath: /var/openproject/assets/123
+        name: assets-share
+      - mountPath: /var/openproject/pgdata/123
+        name: pgdata-share
+  osType: Linux
+  restartPolicy: Always
+  ipAddress:
+    type: Public
+    ports:
+      - port: 80
+    dnsNameLabel: huisje
+  volumes:
+  - name: assets-share
+    azureFile:
+      sharename: assetsshare
+      storageAccountName: huisje
+      storageAccountKey: +UW4mSHeXzgmRXxQVsjwIKzly9voP3H64oHfQ2q0Ydke5lz1uqzlj2Mfs3GjY42WwKwc/5GBl1c4gfbPX9FyPA==
+  - name: pgdata-share
+    azureFile:
+      sharename: pgdatashare
+      storageAccountName: huisje
+      storageAccountKey: +UW4mSHeXzgmRXxQVsjwIKzly9voP3H64oHfQ2q0Ydke5lz1uqzlj2Mfs3GjY42WwKwc/5GBl1c4gfbPX9FyPA==
+tags: {}
+type: Microsoft.ContainerInstance/containerGroups
